@@ -1,0 +1,28 @@
+service: api
+app: myapi
+org: robmacgregor
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+
+functions:
+  hello:
+    handler: handler.hello
+    stage: dev
+    events:
+      - http:
+          path: hello
+          method: get
+
+resources:
+  Resources:
+    MyQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "MyQueue"
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
